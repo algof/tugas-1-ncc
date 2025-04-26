@@ -30,7 +30,7 @@ def embed_data(cover_img, secret_bits):
                 key_table.append(1)
                 bit_idx += 1
         elif 4 <= d <= 5:
-            d_prime = int(np.floor(np.sqrt(abs(d))))
+            d_prime = int(np.floor(d/2))
             new_pixel = p1 + d_prime + s
             if new_pixel > 255:
                 stego_img[idx] = p1
@@ -65,14 +65,13 @@ def extract_data(stego_img, key_table):
         p1 = int(img[idx])
         p2 = int(img[idx + 1])
         d = p1 - p2
-        d_prime = int(np.floor(np.sqrt(abs(d))))
 
         if key == 1:
-            new_img[idx] = p1 - d_prime
+            new_img[idx] = p1 - int(np.floor(d/2))
             s = d % 2
             bits.append(str(s))
         elif key == 2:
-            new_img[idx] = p1 - d_prime + 1
+            new_img[idx] = p1 - int(np.floor(d/2)) + 1
             s = d % 2
             bits.append(str(s))
         # key == 0 → skip
